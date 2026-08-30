@@ -807,11 +807,11 @@ Try questions such as:
 
 ```text
 
-What are the current risks in Project Phoenix?
+What are the current risks in Project Deloitte?
 
 What is the migration deadline?
 
-What technologies are used in Project Phoenix?
+What technologies are used in Project Accenture?
 
 What should the team prioritize?
 
