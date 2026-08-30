@@ -502,7 +502,7 @@ A simple browser-based interface is available for interacting with the assistant
 
 ## Observability
 
-The project integrates **LangSmith**** for LLM application tracing and debugging.
+The project integrates **LangSmith** for LLM application tracing and debugging.
 
 A typical trace can show:
 
@@ -548,7 +548,7 @@ This makes it easier to understand agent behavior and troubleshoot retrieval or 
 
 ## Testing
 
-The project includes automated API tests using **Pytest****.
+The project includes automated API tests using **Pytest**
 
 Run:
 
@@ -907,6 +907,6 @@ Building this project provided hands-on experience with modern AI application de
 
 ### Uday Polishetty
 
-**Software Developer | AI / LLM Projects****
+**Software Developer | AI / LLM Projects**
 
 Built as a practical project exploring **Agentic AI, RAG, vector databases, memory, tool calling, MCP, and backend engineering****.
