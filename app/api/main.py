@@ -3,12 +3,18 @@ from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
 from app.agent.agent import run_agent
+from app.api.upload import router as upload_router
 
 
 app = FastAPI(
     title="Agentic RAG API",
     description="Agentic RAG knowledge assistant with memory, RAG and MCP",
     version="1.0.0"
+)
+
+
+app.include_router(
+    upload_router
 )
 
 

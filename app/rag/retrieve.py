@@ -2,18 +2,18 @@ import chromadb
 from sentence_transformers import SentenceTransformer
 
 
-# --------------------------------------------------
-# Embedding Model
-# --------------------------------------------------
+# ==================================================
+# EMBEDDING MODEL
+# ==================================================
 
 embedding_model = SentenceTransformer(
     "all-MiniLM-L6-v2"
 )
 
 
-# --------------------------------------------------
-# ChromaDB
-# --------------------------------------------------
+# ==================================================
+# CHROMADB
+# ==================================================
 
 client = chromadb.PersistentClient(
     path="chroma_db"
@@ -24,19 +24,42 @@ collection = client.get_collection(
 )
 
 
-# --------------------------------------------------
-# Search
-# --------------------------------------------------
+# ==================================================
+# CONFIGURATION
+# ==================================================
 
-def search(query, n_results=3):
+DEFAULT_RESULTS = 2
 
+# Lower distance = better match
+# SIMILARITY_THRESHOLD = 1.15
+
+
+# ==================================================
+# SEARCH
+# ==================================================
+
+def search(
+    query: str,
+    n_results: int = DEFAULT_RESULTS
+):
+
+    if not query or not query.strip():
+        return []
+
+    # Create query embedding
     query_embedding = embedding_model.encode(
         query
     ).tolist()
 
+    # Vector search
     results = collection.query(
         query_embeddings=[query_embedding],
-        n_results=n_results
+        n_results=n_results,
+        include=[
+            "documents",
+            "metadatas",
+            "distances"
+        ]
     )
 
     documents = results.get("documents", [[]])[0]
@@ -45,19 +68,11 @@ def search(query, n_results=3):
 
     formatted_results = []
 
-    for i, document in enumerate(documents):
-
-        metadata = (
-            metadatas[i]
-            if i < len(metadatas)
-            else {}
-        )
-
-        distance = (
-            distances[i]
-            if i < len(distances)
-            else None
-        )
+    for document, metadata, distance in zip(
+        documents,
+        metadatas,
+        distances
+    ):
 
         formatted_results.append({
 
@@ -70,7 +85,7 @@ def search(query, n_results=3):
 
             "category": metadata.get(
                 "category",
-                "Unknown"
+                "Knowledge Base"
             ),
 
             "distance": distance
@@ -79,9 +94,9 @@ def search(query, n_results=3):
     return formatted_results
 
 
-# --------------------------------------------------
-# Command Line Test
-# --------------------------------------------------
+# ==================================================
+# TEST SEARCH FROM TERMINAL
+# ==================================================
 
 if __name__ == "__main__":
 
@@ -89,30 +104,40 @@ if __name__ == "__main__":
         "Ask a question: "
     )
 
+
     results = search(
-        question,
-        n_results=4
+        question
     )
+
 
     print(
         "\nRelevant information:\n"
     )
 
-    for result in results:
+
+    if not results:
 
         print(
-            f"[{result['source']}]"
+            "No sufficiently relevant information found."
         )
 
-        print(
-            result["content"]
-        )
+    else:
 
-        print(
-            f"\nSimilarity distance: "
-            f"{result['distance']}"
-        )
+        for result in results:
 
-        print(
-            "-" * 60
-        )
+            print(
+                f"[{result['source']}]"
+            )
+
+            print(
+                result["content"]
+            )
+
+            print(
+                f"\nSimilarity distance: "
+                f"{result['distance']}"
+            )
+
+            print(
+                "-" * 60
+            )

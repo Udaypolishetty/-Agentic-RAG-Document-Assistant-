@@ -6,3 +6,6 @@ __pycache__/
 data/
 .cache/
 *.log
+credentials.json
+token.json
+chroma_db/

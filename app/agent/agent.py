@@ -6,6 +6,8 @@ from dotenv import load_dotenv
 from openai import OpenAI
 
 from app.tools.document_search import search_documents
+from app.tools.gmail_search import search_gmail
+
 from app.memory.memory import ConversationMemory
 from app.memory.long_term_memory import LongTermMemory
 
@@ -37,6 +39,7 @@ client = OpenAI(
 # ==================================================
 
 memory = ConversationMemory()
+
 long_term_memory = LongTermMemory()
 
 
@@ -54,14 +57,18 @@ server_params = StdioServerParameters(
 # MCP TOOL RUNNER
 # ==================================================
 
-async def run_mcp_tool(tool_name, arguments):
+async def run_mcp_tool(
+    tool_name,
+    arguments
+):
 
     async with stdio_client(
         server_params
     ) as (read, write):
 
         async with ClientSession(
-            read, write
+            read,
+            write
         ) as session:
 
             await session.initialize()
@@ -85,9 +92,9 @@ async def run_mcp_tool(tool_name, arguments):
 @traceable(name="Agentic RAG Agent")
 def run_agent(question):
 
-    # ------------------------------------------------
-    # Conversation memory
-    # ------------------------------------------------
+    # ==================================================
+    # CONVERSATION MEMORY
+    # ==================================================
 
     memory.add(
         "user",
@@ -97,9 +104,9 @@ def run_agent(question):
     sources = []
 
 
-    # ------------------------------------------------
-    # Long-term memory
-    # ------------------------------------------------
+    # ==================================================
+    # LONG-TERM MEMORY
+    # ==================================================
 
     past_memories = long_term_memory.search(
         question
@@ -110,49 +117,53 @@ def run_agent(question):
     )
 
 
-    # ------------------------------------------------
+    # ==================================================
     # SYSTEM PROMPT
-    # ------------------------------------------------
+    # ==================================================
 
     system_prompt = f"""
 You are an intelligent knowledge assistant.
 
-Your job is to answer questions using the user's
-knowledge base.
+You can use three information sources:
 
-The knowledge base may contain:
-
-- Companies
-- Jobs and careers
-- Projects
-- Technology
-- Personal notes
-- Science
-- Astronomy
-- Other documents
+1. The user's uploaded knowledge base
+2. The user's Gmail
+3. Project information through an MCP tool
 
 IMPORTANT RULES:
 
-1. Use the retrieved knowledge-base information
-   whenever it is relevant to the user's question.
+- Do not invent information.
+- Use retrieved information when relevant.
+- For document questions, use the knowledge base.
+- For Gmail questions, use Gmail.
+- For project questions, use the project tool.
+- You may combine information from multiple sources
+  when necessary.
+- Give concise and natural answers.
+- If the available sources do not contain enough
+  information, clearly say so.
 
-2. Do not invent information.
+GMAIL:
 
-3. If retrieved information contains the answer,
-   use it as the primary source.
+Use search_gmail when the user asks about:
 
-4. Give a concise and natural answer.
+- Emails
+- Gmail
+- Recruiters
+- Job applications
+- Interview emails
+- Company communication
+- Verification codes
+- Application updates
+- Recent email information
 
-5. You are NOT restricted to project questions.
+Do not use Gmail for questions that can be answered
+from uploaded documents.
 
-6. For questions about Project Phoenix or other
-   projects, relevant project information should
-   be used.
+PROJECTS:
 
-7. If the retrieved information does not contain
-   enough information, clearly say that the
-   knowledge base does not contain enough
-   information.
+Use get_project_info when the user specifically
+asks about a project.
 
 Relevant past memories:
 
@@ -160,17 +171,23 @@ Relevant past memories:
 """
 
 
+    # ==================================================
+    # MESSAGES
+    # ==================================================
+
     messages = [
+
         {
             "role": "system",
             "content": system_prompt
         }
+
     ]
 
 
-    # ------------------------------------------------
-    # Conversation history
-    # ------------------------------------------------
+    # ==================================================
+    # CONVERSATION HISTORY
+    # ==================================================
 
     messages.extend(
         memory.get_messages()
@@ -178,7 +195,7 @@ Relevant past memories:
 
 
     # ==================================================
-    # RAG SEARCH FIRST
+    # RAG SEARCH
     # ==================================================
 
     rag_result = search_documents(
@@ -186,19 +203,11 @@ Relevant past memories:
     )
 
 
-    # ------------------------------------------------
-    # Extract retrieved context
-    # ------------------------------------------------
-
     retrieved_context = rag_result.get(
         "context",
         ""
     )
 
-
-    # ------------------------------------------------
-    # Extract sources
-    # ------------------------------------------------
 
     retrieved_sources = rag_result.get(
         "sources",
@@ -206,38 +215,44 @@ Relevant past memories:
     )
 
 
-    for source in retrieved_sources:
+    # --------------------------------------------------
+    # Add document sources only if RAG returned context
+    # --------------------------------------------------
 
-        if source not in sources:
+    if retrieved_context.strip():
 
-            sources.append(
-                source
-            )
+        for source in retrieved_sources:
+
+            if source not in sources:
+
+                sources.append(
+                    source
+                )
 
 
-    # ------------------------------------------------
-    # Add retrieved information to conversation
-    # ------------------------------------------------
+    # ==================================================
+    # ADD RAG CONTEXT
+    # ==================================================
 
     messages.append({
 
         "role": "user",
 
         "content": f"""
-Use the following information retrieved from
-the knowledge base to answer my question.
+Here is information retrieved from the user's
+knowledge base.
 
----------------- RETRIEVED INFORMATION ----------------
+---------------- KNOWLEDGE BASE ----------------
 
 {retrieved_context}
 
----------------- END RETRIEVED INFORMATION ------------
+-------------- END KNOWLEDGE BASE --------------
 
 Question:
 
 {question}
 
-Answer using the retrieved information when relevant.
+Use this information if it is relevant.
 """
     })
 
@@ -248,6 +263,10 @@ Answer using the retrieved information when relevant.
 
     tools = [
 
+        # ------------------------------------------------
+        # PROJECT MCP TOOL
+        # ------------------------------------------------
+
         {
             "type": "function",
 
@@ -256,8 +275,7 @@ Answer using the retrieved information when relevant.
                 "name": "get_project_info",
 
                 "description": """
-Get detailed project information using the MCP
-project information server.
+Get detailed information about a specific project.
 
 Use this tool when the user specifically asks
 about a project.
@@ -281,6 +299,64 @@ about a project.
 
                     "required": [
                         "project_name"
+                    ]
+                }
+            }
+        },
+
+
+        # ------------------------------------------------
+        # GMAIL TOOL
+        # ------------------------------------------------
+
+        {
+            "type": "function",
+
+            "function": {
+
+                "name": "search_gmail",
+
+                "description": """
+Search the user's Gmail when the question requires
+information from emails.
+
+Use this for:
+
+- Recruiter emails
+- Job applications
+- Interview communication
+- Company communication
+- Verification emails
+- Application updates
+- Recent email information
+""",
+
+                "parameters": {
+
+                    "type": "object",
+
+                    "properties": {
+
+                        "query": {
+
+                            "type": "string",
+
+                            "description": """
+Gmail search query.
+
+Examples:
+
+Accenture
+from:careers.accenture.com
+subject:verification
+newer_than:7d
+"""
+                        }
+
+                    },
+
+                    "required": [
+                        "query"
                     ]
                 }
             }
@@ -312,13 +388,16 @@ about a project.
         message = response.choices[0].message
 
 
-        # ------------------------------------------------
-        # No more tool calls
-        # ------------------------------------------------
+        # ==================================================
+        # NO TOOL CALL
+        # ==================================================
 
         if not message.tool_calls:
 
-            answer = message.content
+            answer = (
+                message.content
+                or "I could not generate an answer."
+            )
 
 
             memory.add(
@@ -337,33 +416,40 @@ about a project.
                 "answer": answer,
 
                 "sources": sources
+
             }
 
 
-        # ------------------------------------------------
-        # Add assistant tool request
-        # ------------------------------------------------
+        # ==================================================
+        # ADD ASSISTANT TOOL REQUEST
+        # ==================================================
 
         messages.append(
             message
         )
 
 
-        # ------------------------------------------------
-        # Execute MCP tools
-        # ------------------------------------------------
+        # ==================================================
+        # EXECUTE TOOLS
+        # ==================================================
 
         for tool_call in message.tool_calls:
+
+            tool_name = (
+                tool_call.function.name
+            )
+
 
             arguments = json.loads(
                 tool_call.function.arguments
             )
 
 
-            if (
-                tool_call.function.name
-                == "get_project_info"
-            ):
+            # ==============================================
+            # PROJECT MCP TOOL
+            # ==============================================
+
+            if tool_name == "get_project_info":
 
                 tool_result = asyncio.run(
 
@@ -372,9 +458,27 @@ about a project.
                         "get_project_info",
 
                         arguments
+
                     )
                 )
 
+
+            # ==============================================
+            # GMAIL TOOL
+            # ==============================================
+
+            elif tool_name == "search_gmail":
+
+                tool_result = search_gmail(
+
+                    arguments["query"]
+
+                )
+
+
+            # ==============================================
+            # UNKNOWN TOOL
+            # ==============================================
 
             else:
 
@@ -382,6 +486,10 @@ about a project.
                     "Unknown tool."
                 )
 
+
+            # ==================================================
+            # ADD TOOL RESULT
+            # ==================================================
 
             messages.append({
 
@@ -391,8 +499,14 @@ about a project.
                     tool_call.id,
 
                 "content":
-                    tool_result
+                    str(tool_result)
+
             })
+
+
+    # ==================================================
+    # END AGENT LOOP
+    # ==================================================
 
 
 # ==================================================
@@ -414,6 +528,7 @@ if __name__ == "__main__":
     print(
         "\nAnswer:\n"
     )
+
 
     print(
         result["answer"]

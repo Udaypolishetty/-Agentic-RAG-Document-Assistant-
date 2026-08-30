@@ -1,161 +1,325 @@
 from pathlib import Path
-
 import chromadb
 from sentence_transformers import SentenceTransformer
+from pypdf import PdfReader
+from docx import Document
 
 
-# Root folder containing all knowledge sources
-DATA_PATH = Path("data")
+# --------------------------------------------------
+# Paths
+# --------------------------------------------------
 
+DATA_DIR = Path("data")
+
+
+# --------------------------------------------------
 # Embedding model
-embedding_model = SentenceTransformer("all-MiniLM-L6-v2")
+# --------------------------------------------------
 
+embedding_model = SentenceTransformer(
+    "all-MiniLM-L6-v2"
+)
+
+
+# --------------------------------------------------
 # ChromaDB
-client = chromadb.PersistentClient(path="chroma_db")
+# --------------------------------------------------
+
+client = chromadb.PersistentClient(
+    path="chroma_db"
+)
 
 collection = client.get_or_create_collection(
     name="project_documents"
 )
 
 
-def load_documents():
-    """
-    Read every .txt file inside data/
-    and all of its subfolders.
-    """
+# --------------------------------------------------
+# Read TXT
+# --------------------------------------------------
 
-    documents = []
+def read_txt(path: Path) -> str:
 
-    for file_path in DATA_PATH.rglob("*.txt"):
-
-        # Ignore files inside the memory folder
-        if "memory" in file_path.parts:
-            continue
-
-        with open(file_path, "r", encoding="utf-8") as file:
-            text = file.read().strip()
-
-        if not text:
-            continue
-
-        documents.append({
-            "name": file_path.name,
-            "category": file_path.parent.name,
-            "path": str(file_path),
-            "text": text
-        })
-
-    return documents
+    return path.read_text(
+        encoding="utf-8",
+        errors="ignore"
+    )
 
 
-def create_chunks(text):
-    """
-    Create chunks based on document sections.
+# --------------------------------------------------
+# Read PDF
+# --------------------------------------------------
 
-    Sections are separated by headings written
-    in uppercase, such as JUPITER, SATURN, etc.
-    """
+def read_pdf(path: Path) -> str:
 
-    lines = text.splitlines()
+    reader = PdfReader(str(path))
+
+    pages = []
+
+    for page in reader.pages:
+
+        text = page.extract_text()
+
+        if text:
+            pages.append(text)
+
+    return "\n".join(pages)
+
+
+# --------------------------------------------------
+# Read DOCX
+# --------------------------------------------------
+
+def read_docx(path: Path) -> str:
+
+    document = Document(str(path))
+
+    paragraphs = []
+
+    for paragraph in document.paragraphs:
+
+        text = paragraph.text.strip()
+
+        if text:
+            paragraphs.append(text)
+
+    return "\n".join(paragraphs)
+
+
+# --------------------------------------------------
+# Read document based on extension
+# --------------------------------------------------
+
+def read_document(path: Path) -> str:
+
+    extension = path.suffix.lower()
+
+    if extension == ".txt":
+
+        return read_txt(path)
+
+    elif extension == ".pdf":
+
+        return read_pdf(path)
+
+    elif extension == ".docx":
+
+        return read_docx(path)
+
+    else:
+
+        raise ValueError(
+            f"Unsupported file type: {extension}"
+        )
+
+
+# --------------------------------------------------
+# Category detection
+# --------------------------------------------------
+
+def detect_category(path: Path) -> str:
+
+    parts = [
+        part.lower()
+        for part in path.parts
+    ]
+
+    if "companies" in parts:
+        return "Company"
+
+    if "jobs" in parts:
+        return "Jobs"
+
+    if "projects" in parts:
+        return "Projects"
+
+    if "personal" in parts:
+        return "Personal"
+
+    if "documents" in parts:
+        return "Documents"
+
+    if "memory" in parts:
+        return "Memory"
+
+    return "General"
+
+
+# --------------------------------------------------
+# Chunking
+# --------------------------------------------------
+
+def create_chunks(
+    text: str,
+    chunk_size: int = 500,
+    overlap: int = 50
+):
+
+    words = text.split()
 
     chunks = []
-    current_chunk = []
 
-    for line in lines:
+    start = 0
 
-        line = line.strip()
+    while start < len(words):
 
-        if not line:
-            continue
+        end = start + chunk_size
 
-        # Detect uppercase section headings
-        if (
-            line.isupper()
-            and len(line.split()) <= 8
-        ):
-
-            # Store previous section
-            if current_chunk:
-                chunks.append(
-                    " ".join(current_chunk)
-                )
-
-            current_chunk = [line]
-
-        else:
-            current_chunk.append(line)
-
-    # Store final section
-    if current_chunk:
-        chunks.append(
-            " ".join(current_chunk)
+        chunk = " ".join(
+            words[start:end]
         )
+
+        if chunk.strip():
+
+            chunks.append(chunk)
+
+        start += chunk_size - overlap
 
     return chunks
 
 
-def store_chunks(chunks, source, category):
-    """
-    Create embeddings and store chunks
-    with source metadata in ChromaDB.
-    """
+# --------------------------------------------------
+# Find all supported documents
+# --------------------------------------------------
+
+def find_documents():
+
+    documents = []
+
+    for path in DATA_DIR.rglob("*"):
+
+        if not path.is_file():
+            continue
+
+        if path.suffix.lower() in {
+            ".txt",
+            ".pdf",
+            ".docx"
+        }:
+
+            documents.append(path)
+
+    return documents
+
+
+# --------------------------------------------------
+# Store documents
+# --------------------------------------------------
+
+def store_document(
+    path: Path,
+    document_index: int
+):
+
+    text = read_document(path)
+
+    if not text.strip():
+
+        print(
+            f"Skipping empty document: {path}"
+        )
+
+        return 0
+
+    chunks = create_chunks(text)
 
     if not chunks:
-        return
+
+        return 0
 
     embeddings = embedding_model.encode(
         chunks
     ).tolist()
 
-    ids = [
-        f"{category}_{source}_{i}"
-        for i in range(len(chunks))
-    ]
+    category = detect_category(path)
 
-    metadatas = [
-        {
-            "source": source,
-            "category": category
-        }
-        for _ in chunks
-    ]
+    ids = []
+
+    metadatas = []
+
+    for chunk_index in range(
+        len(chunks)
+    ):
+
+        chunk_id = (
+            f"document_{document_index}_"
+            f"chunk_{chunk_index}"
+        )
+
+        ids.append(chunk_id)
+
+        metadatas.append({
+
+            "source": path.name,
+
+            "path": str(path),
+
+            "category": category,
+
+            "chunk_index": chunk_index
+        })
+
 
     collection.add(
+
         documents=chunks,
+
         embeddings=embeddings,
+
         ids=ids,
+
         metadatas=metadatas
     )
 
+    return len(chunks)
+
+
+# --------------------------------------------------
+# Main
+# --------------------------------------------------
 
 if __name__ == "__main__":
 
-    documents = load_documents()
+    documents = find_documents()
+
+    print(
+        f"\nFound {len(documents)} documents.\n"
+    )
 
     total_chunks = 0
 
-    print("\nDocuments found:\n")
-
-    for document in documents:
+    for index, document in enumerate(
+        documents
+    ):
 
         print(
-            f"- {document['category']}/"
-            f"{document['name']}"
+            f"Processing: {document}"
         )
 
-        chunks = create_chunks(
-            document["text"]
+        chunks_stored = store_document(
+            document,
+            index
         )
 
-        store_chunks(
-            chunks,
-            document["name"],
-            document["category"]
+        total_chunks += chunks_stored
+
+        print(
+            f"  → {chunks_stored} chunks stored"
         )
 
-        total_chunks += len(chunks)
 
     print(
-        f"\nStored {total_chunks} chunks "
-        f"from {len(documents)} documents."
+        "\n--------------------------------"
+    )
+
+    print(
+        f"Documents processed: {len(documents)}"
+    )
+
+    print(
+        f"Total chunks stored: {total_chunks}"
+    )
+
+    print(
+        "--------------------------------"
     )

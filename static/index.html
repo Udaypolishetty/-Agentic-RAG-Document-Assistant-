@@ -5,18 +5,16 @@
 
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Agentic RAG Assistant</title>
 
-    <style>
 
+    <style>
         * {
             box-sizing: border-box;
         }
+
 
         body {
 
@@ -29,17 +27,17 @@
                 "Segoe UI",
                 sans-serif;
 
-            background: #f6f7fb;
+            background: #f7f8fa;
 
-            color: #171717;
+            color: #111827;
         }
 
 
-        /* -----------------------------------------
-           APP CONTAINER
-        ----------------------------------------- */
+        /* =========================================
+           MAIN CONTAINER
+        ========================================= */
 
-        .app {
+        .container {
 
             width: 100%;
 
@@ -47,33 +45,37 @@
 
             margin: 0 auto;
 
-            min-height: 100vh;
-
-            padding: 30px 20px;
+            padding: 32px 20px 60px;
         }
 
 
-        /* -----------------------------------------
+        /* =========================================
            HEADER
-        ----------------------------------------- */
+        ========================================= */
 
         .header {
 
-            text-align: center;
-
-            margin-bottom: 30px;
+            margin-bottom: 24px;
         }
 
 
-        .logo {
+        .brand {
 
-            width: 52px;
+            display: flex;
 
-            height: 52px;
+            align-items: center;
 
-            margin: 0 auto 14px;
+            gap: 10px;
 
-            border-radius: 16px;
+            margin-bottom: 8px;
+        }
+
+
+        .brand-icon {
+
+            width: 34px;
+
+            height: 34px;
 
             display: flex;
 
@@ -81,13 +83,15 @@
 
             justify-content: center;
 
+            border-radius: 10px;
+
             background: #111827;
 
             color: white;
 
-            font-size: 24px;
+            font-size: 16px;
 
-            font-weight: bold;
+            font-weight: 700;
         }
 
 
@@ -95,25 +99,29 @@
 
             margin: 0;
 
-            font-size: 30px;
+            font-size: 25px;
 
-            letter-spacing: -0.8px;
+            font-weight: 750;
+
+            letter-spacing: -0.5px;
         }
 
 
         .subtitle {
 
-            margin-top: 8px;
+            margin: 0;
 
             color: #6b7280;
 
-            font-size: 15px;
+            font-size: 14px;
+
+            line-height: 1.6;
         }
 
 
-        /* -----------------------------------------
+        /* =========================================
            QUESTION CARD
-        ----------------------------------------- */
+        ========================================= */
 
         .question-card {
 
@@ -126,12 +134,7 @@
             padding: 18px;
 
             box-shadow:
-                0 8px 30px rgba(
-                    0,
-                    0,
-                    0,
-                    0.05
-                );
+                0 8px 30px rgba(0, 0, 0, 0.04);
         }
 
 
@@ -149,7 +152,7 @@
 
             font-family: inherit;
 
-            font-size: 16px;
+            font-size: 15px;
 
             line-height: 1.6;
 
@@ -165,31 +168,45 @@
         }
 
 
-        .ask-row {
+        .question-footer {
 
             display: flex;
 
             justify-content: flex-end;
 
+            align-items: center;
+
+            gap: 12px;
+
             margin-top: 10px;
         }
 
 
-        button {
+        .hint {
+
+            margin-right: auto;
+
+            font-size: 12px;
+
+            color: #9ca3af;
+        }
+
+
+        .ask-button {
 
             border: none;
-
-            border-radius: 12px;
-
-            padding: 12px 22px;
 
             background: #111827;
 
             color: white;
 
-            font-size: 15px;
+            border-radius: 10px;
 
-            font-weight: 600;
+            padding: 10px 17px;
+
+            font-size: 13px;
+
+            font-weight: 650;
 
             cursor: pointer;
 
@@ -197,17 +214,17 @@
         }
 
 
-        button:hover {
+        .ask-button:hover {
+
+            background: #1f2937;
 
             transform: translateY(-1px);
-
-            opacity: 0.9;
         }
 
 
-        button:disabled {
+        .ask-button:disabled {
 
-            opacity: 0.6;
+            opacity: 0.55;
 
             cursor: not-allowed;
 
@@ -215,45 +232,13 @@
         }
 
 
-        /* -----------------------------------------
-           QUICK QUESTIONS
-        ----------------------------------------- */
+        /* =========================================
+           UPLOAD CARD
+        ========================================= */
 
-        .quick {
+        .upload-card {
 
-            display: flex;
-
-            flex-wrap: wrap;
-
-            gap: 8px;
-
-            margin-top: 14px;
-        }
-
-
-        .quick button {
-
-            background: white;
-
-            color: #374151;
-
-            border: 1px solid #e5e7eb;
-
-            font-size: 13px;
-
-            padding: 8px 12px;
-
-            font-weight: 500;
-        }
-
-
-        /* -----------------------------------------
-           RESPONSE
-        ----------------------------------------- */
-
-        .response {
-
-            margin-top: 24px;
+            margin-top: 16px;
 
             background: white;
 
@@ -261,21 +246,14 @@
 
             border-radius: 18px;
 
-            padding: 22px;
+            padding: 18px;
 
             box-shadow:
-                0 8px 30px rgba(
-                    0,
-                    0,
-                    0,
-                    0.04
-                );
-
-            display: none;
+                0 8px 30px rgba(0, 0, 0, 0.04);
         }
 
 
-        .response-header {
+        .upload-header {
 
             display: flex;
 
@@ -283,11 +261,11 @@
 
             gap: 10px;
 
-            margin-bottom: 18px;
+            margin-bottom: 14px;
         }
 
 
-        .assistant-icon {
+        .upload-icon {
 
             width: 34px;
 
@@ -295,9 +273,7 @@
 
             border-radius: 10px;
 
-            background: #111827;
-
-            color: white;
+            border: 1px solid #e5e7eb;
 
             display: flex;
 
@@ -306,20 +282,275 @@
             justify-content: center;
 
             font-size: 15px;
+
+            color: #374151;
+
+            background: #f9fafb;
         }
 
 
-        .response-title {
-
-            font-weight: 700;
+        .upload-title {
 
             font-size: 15px;
+
+            font-weight: 700;
+        }
+
+
+        .upload-subtitle {
+
+            margin-top: 2px;
+
+            font-size: 12px;
+
+            color: #6b7280;
+        }
+
+
+        .upload-area {
+
+            display: block;
+
+            border: 1.5px dashed #d1d5db;
+
+            border-radius: 14px;
+
+            padding: 23px;
+
+            text-align: center;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+
+            background: #fafafa;
+        }
+
+
+        .upload-area:hover {
+
+            border-color: #9ca3af;
+
+            background: #f9fafb;
+        }
+
+
+        .upload-area input {
+
+            display: none;
+        }
+
+
+        .upload-file-icon {
+
+            width: 38px;
+
+            height: 38px;
+
+            margin: 0 auto 9px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 10px;
+
+            background: white;
+
+            color: #4b5563;
+
+            font-size: 16px;
+        }
+
+
+        .upload-main {
+
+            font-size: 14px;
+
+            font-weight: 650;
+
+            color: #374151;
+        }
+
+
+        .upload-hint {
+
+            margin-top: 5px;
+
+            font-size: 12px;
+
+            color: #9ca3af;
+        }
+
+
+        .upload-status {
+
+            display: none;
+
+            margin-top: 12px;
+
+            padding: 10px 12px;
+
+            border-radius: 9px;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+
+            background: #f9fafb;
+
+            color: #4b5563;
+        }
+
+
+        .upload-status.success {
+
+            display: block;
+        }
+
+
+        .upload-status.error {
+
+            display: block;
+
+            color: #991b1b;
+
+            background: #fef2f2;
+
+            border: 1px solid #fee2e2;
+        }
+
+
+        /* =========================================
+           QUICK QUESTIONS
+        ========================================= */
+
+        .quick-section {
+
+            margin-top: 18px;
+        }
+
+
+        .quick-title {
+
+            font-size: 12px;
+
+            font-weight: 650;
+
+            color: #6b7280;
+
+            margin-bottom: 9px;
+        }
+
+
+        .quick-questions {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 8px;
+        }
+
+
+        .quick-button {
+
+            border: 1px solid #e5e7eb;
+
+            background: white;
+
+            color: #374151;
+
+            padding: 8px 11px;
+
+            border-radius: 9px;
+
+            font-size: 12px;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+
+        .quick-button:hover {
+
+            background: #f9fafb;
+
+            border-color: #d1d5db;
+        }
+
+
+        /* =========================================
+           ANSWER CARD
+        ========================================= */
+
+        .answer-card {
+
+            margin-top: 22px;
+
+            background: white;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 18px;
+
+            padding: 20px;
+
+            box-shadow:
+                0 8px 30px rgba(0, 0, 0, 0.04);
+        }
+
+
+        .assistant-header {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin-bottom: 14px;
+        }
+
+
+        .assistant-icon {
+
+            width: 32px;
+
+            height: 32px;
+
+            border-radius: 9px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: #f3f4f6;
+
+            border: 1px solid #e5e7eb;
+
+            font-size: 14px;
+        }
+
+
+        .assistant-name {
+
+            font-size: 14px;
+
+            font-weight: 700;
         }
 
 
         .grounded {
 
-            font-size: 12px;
+            font-size: 11px;
 
             color: #6b7280;
 
@@ -329,33 +560,41 @@
 
         .answer {
 
-            font-size: 16px;
+            font-size: 14px;
 
-            line-height: 1.7;
+            line-height: 1.75;
+
+            color: #374151;
 
             white-space: pre-wrap;
 
-            color: #252525;
+            word-break: break-word;
         }
 
 
-        /* -----------------------------------------
+        /* =========================================
            SOURCES
-        ----------------------------------------- */
+        ========================================= */
 
         .sources {
 
-            margin-top: 24px;
+            margin-top: 20px;
 
-            padding-top: 18px;
+            padding-top: 16px;
 
-            border-top: 1px solid #eeeeee;
+            border-top: 1px solid #f0f0f0;
         }
 
 
         .sources-title {
 
-            font-size: 14px;
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            font-size: 13px;
 
             font-weight: 700;
 
@@ -363,61 +602,41 @@
         }
 
 
-        .source {
+        .source-icon {
 
-            padding: 12px;
+            width: 22px;
 
-            background: #f8fafc;
+            height: 22px;
 
-            border: 1px solid #e5e7eb;
+            display: inline-flex;
 
-            border-radius: 10px;
+            align-items: center;
 
-            margin-bottom: 8px;
-        }
+            justify-content: center;
 
-
-        .source-name {
-
-            font-size: 14px;
-
-            font-weight: 600;
-
-            color: #111827;
-        }
-
-
-        .source-category {
-
-            display: inline-block;
-
-            margin-top: 5px;
-
-            font-size: 11px;
-
-            color: #6b7280;
-
-            background: #eef2f7;
-
-            padding: 3px 7px;
+            border: 1px solid #d1d5db;
 
             border-radius: 6px;
+
+            font-size: 12px;
+
+            color: #4b5563;
+
+            background: #f9fafb;
         }
 
 
-        .no-source {
+        .source-list {
 
-            color: #6b7280;
+            display: flex;
 
-            font-size: 13px;
+            flex-direction: column;
+
+            gap: 8px;
         }
 
 
-        /* -----------------------------------------
-           LOADING
-        ----------------------------------------- */
-
-        .loading {
+        .source-card {
 
             display: flex;
 
@@ -425,53 +644,146 @@
 
             gap: 10px;
 
+            padding: 10px 12px;
+
+            border: 1px solid #e5e7eb;
+
+            border-radius: 10px;
+
+            background: #fafafa;
+        }
+
+
+        .file-icon {
+
+            width: 28px;
+
+            height: 28px;
+
+            flex-shrink: 0;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 7px;
+
+            font-size: 12px;
+
             color: #6b7280;
 
-            font-size: 14px;
+            background: white;
+        }
+
+
+        .source-info {
+
+            min-width: 0;
+        }
+
+
+        .source-name {
+
+            font-size: 13px;
+
+            font-weight: 650;
+
+            color: #111827;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+            white-space: nowrap;
+        }
+
+
+        .source-category {
+
+            margin-top: 2px;
+
+            font-size: 11px;
+
+            color: #6b7280;
+        }
+
+
+        /* =========================================
+           LOADING
+        ========================================= */
+
+        .loading {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
         }
 
 
         .dot {
 
-            width: 7px;
+            width: 6px;
 
-            height: 7px;
+            height: 6px;
 
             border-radius: 50%;
 
             background: #6b7280;
 
-            animation: pulse 1s infinite alternate;
+            animation: pulse 1.2s infinite;
+        }
+
+
+        .dot:nth-child(2) {
+
+            animation-delay: 0.2s;
+        }
+
+
+        .dot:nth-child(3) {
+
+            animation-delay: 0.4s;
         }
 
 
         @keyframes pulse {
 
-            from {
+            0%,
+            60%,
+            100% {
+
                 opacity: 0.3;
             }
 
-            to {
+            30% {
+
                 opacity: 1;
             }
         }
 
 
-        /* -----------------------------------------
+        /* =========================================
            MOBILE
-        ----------------------------------------- */
+        ========================================= */
 
         @media (max-width: 600px) {
 
-            .app {
+            .container {
 
-                padding: 20px 12px;
+                padding:
+                    22px 14px 45px;
             }
 
 
             h1 {
 
-                font-size: 24px;
+                font-size: 22px;
             }
 
 
@@ -481,11 +793,17 @@
             }
 
 
+            .question-card,
+            .upload-card,
+            .answer-card {
+
+                border-radius: 15px;
+            }
+
+
             .question-card {
 
                 padding: 14px;
-
-                border-radius: 15px;
             }
 
 
@@ -493,69 +811,83 @@
 
                 min-height: 110px;
 
-                font-size: 15px;
+                font-size: 14px;
             }
 
 
-            .ask-row button {
+            .question-footer {
 
-                width: 100%;
+                flex-wrap: wrap;
             }
 
 
-            .quick {
-
-                flex-direction: column;
-            }
-
-
-            .quick button {
+            .hint {
 
                 width: 100%;
 
-                text-align: left;
+                margin-bottom: 3px;
             }
 
 
-            .response {
+            .ask-button {
 
-                padding: 17px;
+                width: 100%;
 
-                border-radius: 15px;
+                padding: 11px;
             }
 
 
-            .answer {
+            .upload-card {
 
-                font-size: 15px;
+                padding: 14px;
             }
-            .sources-title {
-    display: flex;
-    align-items: center;
-    gap: 8px;
 
-    font-size: 14px;
-    font-weight: 700;
-    margin-bottom: 12px;
-}
 
-.source-icon {
-    width: 22px;
-    height: 22px;
+            .upload-area {
 
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+                padding: 20px 12px;
+            }
 
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
 
-    font-size: 13px;
-    color: #4b5563;
-    background: #f9fafb;
-}
+            .quick-questions {
+
+                display: grid;
+
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+
+            .quick-button {
+
+                width: 100%;
+
+                text-align: center;
+            }
+
+
+            .answer-card {
+
+                padding: 16px;
+            }
         }
 
+
+        @media (max-width: 380px) {
+
+            .quick-questions {
+
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* =========================================
+           RESPONSE SECTION SCROLL
+        ========================================= */
+
+        #answerCard {
+            scroll-margin-top: 30px;
+        }
     </style>
 
 </head>
@@ -564,394 +896,636 @@
 <body>
 
 
-<div class="app">
+    <div class="container">
 
 
-    <!-- HEADER -->
+        <!-- =========================================
+         HEADER
+    ========================================== -->
 
-    <div class="header">
+        <header class="header">
 
-        <div class="logo">
-            ✦
-        </div>
+            <div class="brand">
 
-        <h1>
-            Agentic RAG Assistant
-        </h1>
+                <div class="brand-icon">
+                    ✦
+                </div>
 
-        <div class="subtitle">
-            Ask questions across your connected knowledge base
-        </div>
+                <h1>
+                    Agentic RAG Assistant
+                </h1>
 
-    </div>
-
-
-    <!-- QUESTION -->
-
-    <div class="question-card">
-
-        <textarea
-            id="question"
-            placeholder="Ask something about your documents..."
-        ></textarea>
-
-
-        <div class="ask-row">
-
-            <button
-                id="askButton"
-                onclick="askQuestion()"
-            >
-                Ask Assistant
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <!-- QUICK QUESTIONS -->
-
-    <div class="quick">
-
-        <button
-            onclick="setQuestion('What are the current risks in Project Phoenix?')"
-        >
-            Project Risks
-        </button>
-
-
-        <button
-            onclick="setQuestion('What do you know about Deloitte?')"
-        >
-            Deloitte
-        </button>
-
-
-        <button
-            onclick="setQuestion('What is the largest planet?')"
-        >
-            Astronomy
-        </button>
-
-
-        <button
-            onclick="setQuestion('What technologies are used in the project?')"
-        >
-            Technology
-        </button>
-
-    </div>
-
-
-    <!-- RESPONSE -->
-
-    <div
-        id="response"
-        class="response"
-    >
-
-        <div class="response-header">
-
-            <div class="assistant-icon">
-                ✦
             </div>
 
-            <div>
 
-                <div class="response-title">
-                    Assistant
+            <p class="subtitle">
+                Ask questions across your connected knowledge base.
+            </p>
+
+        </header>
+
+
+
+        <!-- =========================================
+         QUESTION
+    ========================================== -->
+
+        <div class="question-card">
+
+            <textarea id="question" placeholder="Ask something about your documents..."
+                onkeydown="handleKeyDown(event)"></textarea>
+
+
+            <div class="question-footer">
+
+                <div class="hint">
+                    Press Enter to ask · Shift + Enter for a new line
                 </div>
 
-                <div class="grounded">
-                    Grounded response
-                </div>
+
+                <button class="ask-button" id="askButton" onclick="askQuestion()">
+                    Ask Assistant
+                </button>
 
             </div>
 
         </div>
 
 
-        <div
-            id="answer"
-            class="answer"
-        ></div>
+
+        <!-- =========================================
+         DOCUMENT UPLOAD
+    ========================================== -->
+
+        <div class="upload-card">
+
+            <div class="upload-header">
+
+                <div class="upload-icon">
+                    ▤
+                </div>
 
 
-        <!-- SOURCES -->
+                <div>
 
-        <div class="sources">
+                    <div class="upload-title">
+                        Add Knowledge
+                    </div>
 
-<div class="sources-title">
-    <span class="source-icon">▤</span>
-    Sources
-</div>
+                    <div class="upload-subtitle">
+                        Upload a document to your knowledge base
+                    </div>
 
-            <div id="sourcesList"></div>
+                </div>
+
+            </div>
+
+
+            <label class="upload-area">
+
+                <input
+    type="file"
+    id="documentInput"
+    accept=".txt,.pdf,.docx"
+    onchange="uploadDocument()"
+>
+
+
+                <div class="upload-file-icon">
+                    ▤
+                </div>
+
+
+                <div class="upload-main">
+                    Choose a document
+                </div>
+
+
+                <div class="upload-hint">
+                    TXT, PDF and DOCX files supported
+                </div>
+
+            </label>
+
+
+            <div id="uploadStatus" class="upload-status"></div>
 
         </div>
+
+
+
+        <!-- =========================================
+         QUICK QUESTIONS
+    ========================================== -->
+
+        <div class="quick-section">
+
+            <div class="quick-title">
+                Quick questions
+            </div>
+
+
+            <div class="quick-questions">
+
+                <button class="quick-button" onclick="useQuestion('What are the current risks in Project Phoenix?')">
+                    Project Risks
+                </button>
+
+
+                <button class="quick-button" onclick="useQuestion('What do you know about Deloitte?')">
+                    Deloitte
+                </button>
+
+
+                <button class="quick-button" onclick="useQuestion('What is the largest planet?')">
+                    Astronomy
+                </button>
+
+
+                <button class="quick-button" onclick="useQuestion('What technologies are used in the project?')">
+                    Technology
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =========================================
+         ANSWER
+    ========================================== -->
+
+        <div id="answerCard" class="answer-card" style="display: none;">
+
+            <div class="assistant-header">
+
+                <div class="assistant-icon">
+                    ✦
+                </div>
+
+
+                <div>
+
+                    <div class="assistant-name">
+                        Assistant
+                    </div>
+
+                    <div class="grounded">
+                        Grounded response
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="answer" id="answer"></div>
+
+
+            <!-- SOURCES -->
+
+            <div class="sources" id="sources" style="display: none;">
+
+                <div class="sources-title">
+
+                    <span class="source-icon">
+                        ▤
+                    </span>
+
+                    Sources
+
+                </div>
+
+
+                <div class="source-list" id="sourceList"></div>
+
+            </div>
+
+        </div>
+
 
     </div>
 
 
-</div>
+
+    <script>
 
 
-<script>
+        // =========================================
+        // ENTER KEY HANDLING
+        // =========================================
 
+        function handleKeyDown(event) {
 
-    // ---------------------------------------------
-    // QUICK QUESTION
-    // ---------------------------------------------
+            if (
+                event.key === "Enter" &&
+                !event.shiftKey
+            ) {
 
-    function setQuestion(question) {
+                event.preventDefault();
 
-        document.getElementById(
-            "question"
-        ).value = question;
-
-        document.getElementById(
-            "question"
-        ).focus();
-    }
-
-
-    // ---------------------------------------------
-    // ASK QUESTION
-    // ---------------------------------------------
-
-    async function askQuestion() {
-
-        const question =
-            document.getElementById(
-                "question"
-            ).value.trim();
-
-
-        if (!question) {
-
-            return;
+                askQuestion();
+            }
         }
 
 
-        const button =
-            document.getElementById(
-                "askButton"
-            );
+
+        // =========================================
+        // QUICK QUESTION
+        // =========================================
+
+        function useQuestion(question) {
+
+            const textarea =
+                document.getElementById("question");
+
+            textarea.value = question;
+
+            textarea.focus();
+        }
 
 
-        const responseBox =
-            document.getElementById(
-                "response"
-            );
+
+        // =========================================
+        // ASK ASSISTANT
+        // =========================================
+
+        async function askQuestion() {
+
+            const textarea =
+                document.getElementById("question");
+
+            const question =
+                textarea.value.trim();
 
 
-        const answerBox =
-            document.getElementById(
-                "answer"
-            );
+            if (!question) {
+
+                textarea.focus();
+
+                return;
+            }
 
 
-        const sourcesList =
-            document.getElementById(
-                "sourcesList"
-            );
+            const answerCard =
+                document.getElementById("answerCard");
+
+            const answer =
+                document.getElementById("answer");
+
+            const sources =
+                document.getElementById("sources");
+
+            const sourceList =
+                document.getElementById("sourceList");
+
+            const askButton =
+                document.getElementById("askButton");
 
 
-        // -----------------------------------------
-        // Loading state
-        // -----------------------------------------
+            // -----------------------------------------
+            // Loading state
+            // -----------------------------------------
 
-        button.disabled = true;
+            askButton.disabled = true;
 
-        button.innerText =
-            "Thinking...";
-
-
-        responseBox.style.display =
-            "block";
+            askButton.innerText =
+                "Thinking...";
 
 
-        answerBox.innerHTML = `
+            answerCard.style.display =
+                "block";
+
+function scrollToAnswer() {
+    const answerCard = document.getElementById("answerCard");
+
+    const y =
+        answerCard.getBoundingClientRect().top +
+        window.pageYOffset -
+        (window.innerHeight / 2) +
+        (answerCard.offsetHeight / 2);
+
+    window.scrollTo({
+        top: Math.max(0, y),
+        behavior: "smooth"
+    });
+}
+
+
+            sources.style.display =
+                "none";
+
+
+            sourceList.innerHTML =
+                "";
+
+
+            answer.innerHTML = `
             <div class="loading">
+                <span>Thinking</span>
                 <span class="dot"></span>
-                Searching knowledge base and generating answer...
+                <span class="dot"></span>
+                <span class="dot"></span>
             </div>
         `;
 
 
-        sourcesList.innerHTML = "";
+            try {
+
+                const response =
+                    await fetch(
+                        "/ask",
+                        {
+
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                question: question
+                            })
+                        }
+                    );
 
 
-        try {
-
-            const response =
-                await fetch(
-                    "/ask",
-                    {
-
-                        method: "POST",
-
-                        headers: {
-                            "Content-Type":
-                                "application/json"
-                        },
-
-                        body: JSON.stringify({
-                            question: question
-                        })
-
-                    }
-                );
+                const data =
+                    await response.json();
 
 
-            const data =
-                await response.json();
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.detail ||
+                        "Unable to process the question."
+                    );
+                }
 
 
-            if (!response.ok) {
+                // -------------------------------------
+                // Answer
+                // -------------------------------------
 
-                throw new Error(
-                    data.detail ||
-                    "Unable to process question."
-                );
-            }
-
-
-            // -------------------------------------
-            // Answer
-            // -------------------------------------
-
-            answerBox.innerText =
-                data.answer;
+                answer.innerText =
+                    data.answer || "No answer returned.";
 
 
-            // -------------------------------------
-            // Sources
-            // -------------------------------------
+                answerCard.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
 
-            if (
-                data.sources &&
-                data.sources.length > 0
-            ) {
 
-                data.sources.forEach(
-                    source => {
+                // -------------------------------------
+                // Sources
+                // -------------------------------------
 
-                        const sourceDiv =
-                            document.createElement(
-                                "div"
+                if (
+                    data.sources &&
+                    data.sources.length > 0
+                ) {
+
+                    sources.style.display =
+                        "block";
+
+
+                    data.sources.forEach(
+                        source => {
+
+                            const sourceCard =
+                                document.createElement("div");
+
+                            sourceCard.className =
+                                "source-card";
+
+
+                            const fileIcon =
+                                document.createElement("div");
+
+                            fileIcon.className =
+                                "file-icon";
+
+                            fileIcon.innerText =
+                                "▤";
+
+
+                            const sourceInfo =
+                                document.createElement("div");
+
+                            sourceInfo.className =
+                                "source-info";
+
+
+                            const sourceName =
+                                document.createElement("div");
+
+                            sourceName.className =
+                                "source-name";
+
+                            sourceName.innerText =
+                                source.source ||
+                                "Unknown document";
+
+
+                            const sourceCategory =
+                                document.createElement("div");
+
+                            sourceCategory.className =
+                                "source-category";
+
+                            sourceCategory.innerText =
+                                source.category ||
+                                "Knowledge Base";
+
+
+                            sourceInfo.appendChild(
+                                sourceName
                             );
 
-                        sourceDiv.className =
-                            "source";
+                            sourceInfo.appendChild(
+                                sourceCategory
+                            );
 
 
-                        sourceDiv.innerHTML = `
+                            sourceCard.appendChild(
+                                fileIcon
+                            );
 
-                            <div class="source-name">
-                                ${escapeHtml(
-                                    source.source
-                                )}
-                            </div>
-
-                            <span class="source-category">
-                                ${escapeHtml(
-                                    source.category
-                                )}
-                            </span>
-
-                        `;
+                            sourceCard.appendChild(
+                                sourceInfo
+                            );
 
 
-                        sourcesList.appendChild(
-                            sourceDiv
-                        );
+                            sourceList.appendChild(
+                                sourceCard
+                            );
 
-                    }
-                );
+                        }
+                    );
 
-            } else {
+                }
 
-                sourcesList.innerHTML = `
-                    <div class="no-source">
-                        No document sources were used.
-                    </div>
-                `;
 
+            } catch (error) {
+
+                answer.innerText =
+                    error.message ||
+                    "Something went wrong while processing your question.";
+
+                answerCard.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+
+            } finally {
+
+                askButton.disabled =
+                    false;
+
+                askButton.innerText =
+                    "Ask Assistant";
             }
-
-
-        } catch (error) {
-
-            answerBox.innerText =
-                "Sorry, something went wrong while processing your question.";
-
-
-            sourcesList.innerHTML = `
-                <div class="no-source">
-                    ${escapeHtml(
-                        error.message
-                    )}
-                </div>
-            `;
-
         }
 
 
-        // -----------------------------------------
-        // Reset button
-        // -----------------------------------------
 
-        button.disabled = false;
+        // =========================================
+        // DOCUMENT UPLOAD
+        // =========================================
 
-        button.innerText =
-            "Ask Assistant";
-    }
+        async function uploadDocument() {
+
+            const input =
+                document.getElementById(
+                    "documentInput"
+                );
+
+            const status =
+                document.getElementById(
+                    "uploadStatus"
+                );
 
 
-    // ---------------------------------------------
-    // ENTER KEY
-    // ---------------------------------------------
+            const file =
+                input.files[0];
 
-    document
-        .getElementById("question")
-        .addEventListener(
-            "keydown",
-            function(event) {
 
-                if (
-                    event.key === "Enter" &&
-                    !event.shiftKey
-                ) {
-
-                    event.preventDefault();
-
-                    askQuestion();
-                }
-
+            if (!file) {
+                return;
             }
-        );
 
 
-    // ---------------------------------------------
-    // HTML ESCAPING
-    // ---------------------------------------------
+            // -----------------------------------------
+            // Validate extension
+            // -----------------------------------------
 
-    function escapeHtml(value) {
+            const extension =
+                file.name
+                    .split(".")
+                    .pop()
+                    .toLowerCase();
 
-        const div =
-            document.createElement(
-                "div"
+
+const allowedExtensions = [
+    "txt",
+    "pdf",
+    "docx"
+];
+
+if (!allowedExtensions.includes(extension)) {
+
+    status.className =
+        "upload-status error";
+
+    status.innerText =
+        "Supported files: TXT, PDF and DOCX.";
+
+    input.value = "";
+
+    return;
+}
+
+
+            // -----------------------------------------
+            // Loading
+            // -----------------------------------------
+
+            status.className =
+                "upload-status success";
+
+            status.innerText =
+                "Uploading and processing document...";
+
+
+            const formData =
+                new FormData();
+
+
+            formData.append(
+                "file",
+                file
             );
 
-        div.textContent =
-            value ?? "";
 
-        return div.innerHTML;
-    }
+            try {
 
-</script>
+                const response =
+                    await fetch(
+                        "/documents/upload",
+                        {
+
+                            method: "POST",
+
+                            body: formData
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data.detail ||
+                        "Upload failed."
+                    );
+                }
+
+
+                status.className =
+                    "upload-status success";
+
+
+                status.innerText =
+                    `${data.filename} added successfully. ` +
+                    `${data.chunks_stored} chunk(s) stored.`;
+
+
+                // Clear file selection
+
+                input.value = "";
+
+
+            } catch (error) {
+
+                status.className =
+                    "upload-status error";
+
+
+                status.innerText =
+                    error.message ||
+                    "Unable to upload document.";
+
+            }
+
+        }
+
+    </script>
 
 
 </body>
