@@ -706,6 +706,96 @@
 			"typeName": "shape"
 		},
 		{
+			"x": 209.09194869466592,
+			"y": 4649.517191474029,
+			"rotation": 0,
+			"isLocked": false,
+			"opacity": 1,
+			"meta": {},
+			"id": "shape:IyRObVhD-fg-UX_5SlM9T",
+			"type": "text",
+			"props": {
+				"color": "violet",
+				"size": "m",
+				"w": 886.8500366210938,
+				"font": "draw",
+				"textAlign": "start",
+				"autoSize": true,
+				"scale": 1,
+				"richText": {
+					"type": "doc",
+					"attrs": {
+						"dir": "auto"
+					},
+					"content": [
+						{
+							"type": "paragraph",
+							"attrs": {
+								"dir": "auto"
+							},
+							"content": [
+								{
+									"type": "text",
+									"text": "\"I built a multi-source Agentic RAG system where documents are "
+								}
+							]
+						},
+						{
+							"type": "paragraph",
+							"attrs": {
+								"dir": "auto"
+							},
+							"content": [
+								{
+									"type": "text",
+									"text": "recursively ingested, semantically retrieved using embeddings and"
+								}
+							]
+						},
+						{
+							"type": "paragraph",
+							"attrs": {
+								"dir": "auto"
+							},
+							"content": [
+								{
+									"type": "text",
+									"text": " ChromaDB, and passed to an LLM through a tool-calling agent. "
+								}
+							]
+						},
+						{
+							"type": "paragraph",
+							"attrs": {
+								"dir": "auto"
+							},
+							"content": [
+								{
+									"type": "text",
+									"text": "Source metadata is preserved so responses can be traced back to their"
+								}
+							]
+						},
+						{
+							"type": "paragraph",
+							"attrs": {
+								"dir": "auto"
+							},
+							"content": [
+								{
+									"type": "text",
+									"text": " originating documents.\""
+								}
+							]
+						}
+					]
+				}
+			},
+			"parentId": "page:page",
+			"index": "apMBn",
+			"typeName": "shape"
+		},
+		{
 			"x": 223.49185103841592,
 			"y": 3538.7171884222707,
 			"rotation": 0,
@@ -1149,7 +1239,7 @@
 		},
 		{
 			"x": 485.30813675455283,
-			"y": -4406.317179266997,
+			"y": -4423.959905704497,
 			"z": 0.5,
 			"meta": {},
 			"id": "camera:page:page",
@@ -1212,6 +1302,50 @@
 			},
 			"parentId": "shape:KBx7Xcvi47SYRBhJ1QSNI",
 			"index": "a1vDX",
+			"typeName": "shape"
+		},
+		{
+			"x": -261.3081520133419,
+			"y": 5731.160039981841,
+			"rotation": 0,
+			"isLocked": false,
+			"opacity": 1,
+			"meta": {},
+			"id": "shape:moG_ICURMXd_WdnMU0uf-",
+			"type": "arrow",
+			"props": {
+				"kind": "arc",
+				"elbowMidPoint": 0.5,
+				"dash": "draw",
+				"size": "m",
+				"fill": "none",
+				"color": "black",
+				"labelColor": "black",
+				"bend": 0,
+				"start": {
+					"x": -14.39990234375,
+					"y": -23.600006103515625
+				},
+				"end": {
+					"x": -25.59991455078125,
+					"y": -48.800018310546875
+				},
+				"arrowheadStart": "none",
+				"arrowheadEnd": "arrow",
+				"richText": {
+					"type": "doc",
+					"content": [
+						{
+							"type": "paragraph"
+						}
+					]
+				},
+				"labelPosition": 0.5,
+				"font": "draw",
+				"scale": 1
+			},
+			"parentId": "page:page",
+			"index": "aqXsQ",
 			"typeName": "shape"
 		},
 		{
@@ -1712,12 +1846,12 @@
 			"typeName": "shape"
 		},
 		{
-			"editingShapeId": "shape:12-1GeNRAz4ofbDuDdsov",
+			"editingShapeId": null,
 			"croppingShapeId": null,
 			"selectedShapeIds": [
-				"shape:12-1GeNRAz4ofbDuDdsov"
+				"shape:moG_ICURMXd_WdnMU0uf-"
 			],
-			"hoveredShapeId": "shape:12-1GeNRAz4ofbDuDdsov",
+			"hoveredShapeId": "shape:moG_ICURMXd_WdnMU0uf-",
 			"erasingShapeIds": [],
 			"hintingShapeIds": [],
 			"focusedGroupId": null,
@@ -2363,6 +2497,45 @@
 			},
 			"parentId": "page:page",
 			"index": "aZVgX",
+			"typeName": "shape"
+		},
+		{
+			"x": 156.29189986654092,
+			"y": 4636.317179266997,
+			"rotation": 0,
+			"isLocked": false,
+			"opacity": 1,
+			"meta": {},
+			"id": "shape:cY-eXq2xRMzI3KTRqIGHn",
+			"type": "geo",
+			"props": {
+				"w": 988.7999877929688,
+				"h": 202,
+				"geo": "rectangle",
+				"dash": "draw",
+				"growY": 0,
+				"url": "",
+				"scale": 1,
+				"flipX": false,
+				"flipY": false,
+				"color": "black",
+				"labelColor": "black",
+				"fill": "none",
+				"size": "m",
+				"font": "draw",
+				"align": "middle",
+				"verticalAlign": "middle",
+				"richText": {
+					"type": "doc",
+					"content": [
+						{
+							"type": "paragraph"
+						}
+					]
+				}
+			},
+			"parentId": "page:page",
+			"index": "aoVzL",
 			"typeName": "shape"
 		},
 		{
@@ -3477,7 +3650,7 @@
 			"followingUserId": null,
 			"opacityForNextShape": 1,
 			"stylesForNextShape": {
-				"tldraw:color": "black",
+				"tldraw:color": "violet",
 				"tldraw:geo": "rectangle",
 				"tldraw:font": "draw",
 				"tldraw:size": "m"
@@ -3485,7 +3658,7 @@
 			"brush": null,
 			"scribbles": [],
 			"cursor": {
-				"type": "default",
+				"type": "grab",
 				"rotation": 0
 			},
 			"isFocusMode": false,
@@ -3496,7 +3669,7 @@
 				"x": 0,
 				"y": 0,
 				"w": 1194.4000244140625,
-				"h": 308
+				"h": 489.6000061035156
 			},
 			"insets": [
 				false,
@@ -3513,7 +3686,7 @@
 			"isFocused": true,
 			"devicePixelRatio": 1.25,
 			"isCoarsePointer": false,
-			"isHoveringCanvas": true,
+			"isHoveringCanvas": false,
 			"openMenus": [],
 			"isChangingStyle": false,
 			"isReadonly": false,
