@@ -1,4 +1,4 @@
-# Agentic RAG Document Assistant**
+# Agentic RAG Document Assistant
 
 > An AI-powered document assistant that combines Retrieval-Augmented Generation (RAG), agentic tool calling, conversation memory, MCP, and FastAPI.
 
