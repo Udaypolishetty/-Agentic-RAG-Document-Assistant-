@@ -1320,7 +1320,7 @@
 		},
 		{
 			"x": 485.30813675455283,
-			"y": -6023.959905704497,
+			"y": -6223.959905704497,
 			"z": 0.5,
 			"meta": {},
 			"id": "camera:page:page",
@@ -2179,10 +2179,10 @@
 			"typeName": "shape"
 		},
 		{
-			"editingShapeId": "shape:kQR1T6voFr8fhHbq2spyq",
+			"editingShapeId": "shape:nIoV9PdUj1gSBqnhiDDQS",
 			"croppingShapeId": null,
 			"selectedShapeIds": [
-				"shape:kQR1T6voFr8fhHbq2spyq"
+				"shape:nIoV9PdUj1gSBqnhiDDQS"
 			],
 			"hoveredShapeId": null,
 			"erasingShapeIds": [],
@@ -2399,6 +2399,85 @@
 			},
 			"parentId": "page:page",
 			"index": "aRKPb",
+			"typeName": "shape"
+		},
+		{
+			"x": 602.6918632454472,
+			"y": 6436.3599148597705,
+			"rotation": 0,
+			"isLocked": false,
+			"opacity": 1,
+			"meta": {},
+			"id": "shape:nIoV9PdUj1gSBqnhiDDQS",
+			"type": "text",
+			"props": {
+				"color": "red",
+				"size": "m",
+				"w": 750.8500366210938,
+				"font": "draw",
+				"textAlign": "start",
+				"autoSize": true,
+				"scale": 1,
+				"richText": {
+					"type": "doc",
+					"attrs": {
+						"dir": "auto"
+					},
+					"content": [
+						{
+							"type": "paragraph",
+							"attrs": {
+								"dir": "auto"
+							},
+							"content": [
+								{
+									"type": "text",
+									"text": "When you deploy your application on platforms like"
+								}
+							]
+						},
+						{
+							"type": "paragraph",
+							"attrs": {
+								"dir": "auto"
+							},
+							"content": [
+								{
+									"type": "text",
+									"text": " Render or Vercel, the package reinstallation happens"
+								}
+							]
+						},
+						{
+							"type": "paragraph",
+							"attrs": {
+								"dir": "auto"
+							},
+							"content": [
+								{
+									"type": "text",
+									"text": " entirely on "
+								},
+								{
+									"type": "text",
+									"marks": [
+										{
+											"type": "bold"
+										}
+									],
+									"text": "their cloud servers"
+								},
+								{
+									"type": "text",
+									"text": ", not on your local computer"
+								}
+							]
+						}
+					]
+				}
+			},
+			"parentId": "page:page",
+			"index": "b02Bwj",
 			"typeName": "shape"
 		},
 		{
@@ -4246,6 +4325,45 @@
 			"typeName": "binding"
 		},
 		{
+			"x": 453.8918754524784,
+			"y": 6421.959905704497,
+			"rotation": 0,
+			"isLocked": false,
+			"opacity": 1,
+			"meta": {},
+			"id": "shape:ePAjFrv1lf-qvioX-sPJe",
+			"type": "geo",
+			"props": {
+				"w": 1054.3999633789062,
+				"h": 160.800048828125,
+				"geo": "rectangle",
+				"dash": "draw",
+				"growY": 0,
+				"url": "",
+				"scale": 1,
+				"flipX": false,
+				"flipY": false,
+				"color": "black",
+				"labelColor": "black",
+				"fill": "none",
+				"size": "m",
+				"font": "draw",
+				"align": "middle",
+				"verticalAlign": "middle",
+				"richText": {
+					"type": "doc",
+					"content": [
+						{
+							"type": "paragraph"
+						}
+					]
+				}
+			},
+			"parentId": "page:page",
+			"index": "b01QCv",
+			"typeName": "shape"
+		},
+		{
 			"x": 223.49185103841592,
 			"y": 3993.117197577544,
 			"rotation": 0,
@@ -4498,7 +4616,7 @@
 			"followingUserId": null,
 			"opacityForNextShape": 1,
 			"stylesForNextShape": {
-				"tldraw:color": "black",
+				"tldraw:color": "red",
 				"tldraw:geo": "rectangle",
 				"tldraw:font": "draw",
 				"tldraw:size": "m"
@@ -4534,9 +4652,9 @@
 			"isFocused": true,
 			"devicePixelRatio": 1.25,
 			"isCoarsePointer": false,
-			"isHoveringCanvas": false,
+			"isHoveringCanvas": true,
 			"openMenus": [],
-			"isChangingStyle": false,
+			"isChangingStyle": true,
 			"isReadonly": false,
 			"meta": {},
 			"duplicateProps": null,
