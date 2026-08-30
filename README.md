@@ -902,6 +902,8 @@ Building this project provided hands-on experience with modern AI application de
 9. Adding observability to LLM applications
 
 ---
+<img width="1128" height="849" alt="RAG1" src="https://github.com/user-attachments/assets/a761303a-7cd5-44fe-9cfe-9083955fe169" />
+
 
 ## Author
 
