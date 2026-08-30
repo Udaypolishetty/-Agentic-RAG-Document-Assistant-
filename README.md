@@ -12,7 +12,7 @@ This project is an **Agentic RAG (Retrieval-Augmented Generation) Document Assis
 
 Instead of relying only on the LLM's internal knowledge, the agent can retrieve relevant information from the project knowledge base and use that context to generate grounded answers.
 
-### Key Features**
+### Key Features
 
 \- Semantic document retrieval
 
@@ -34,7 +34,7 @@ Instead of relying only on the LLM's internal knowledge, the agent can retrieve 
 
 ---
 
-## Architecture**
+## Architecture
 
 ```text
 
@@ -94,7 +94,7 @@ User / Web UI
 
 ---
 
-## How It Works**
+## How It Works
 
 A typical request follows this flow:
 
@@ -150,11 +150,11 @@ The agent is instructed to use available project information and avoid inventing
 
 ---
 
-## Retrieval-Augmented Generation**
+## Retrieval-Augmented Generation
 
 Project information is stored in a vector database and retrieved using semantic similarity.
 
-### RAG Pipeline**
+### RAG Pipeline
 
 ```text
 
@@ -204,7 +204,7 @@ Answer
 
 ```
 
-### Why Semantic Search?**
+### Why Semantic Search?
 
 Traditional keyword search looks for exact words.
 
@@ -246,17 +246,17 @@ Grounded Answer
 
 ---
 
-## Agentic Tool Calling**
+## Agentic Tool Calling
 
 The LLM can decide when it needs additional project information and call a tool to retrieve it.
 
-### Current Tool**
+### Current Tool
 
-**`search_documents`****
+**`search_documents`***
 
 Searches the project knowledge base and returns relevant information to the agent.
 
-### Tool Calling Flow**
+### Tool Calling Flow
 
 ```text
 
@@ -313,12 +313,11 @@ Final Answer
 This makes the application **agentic**** because the LLM can decide when to use an external tool instead of following only a fixed retrieval sequence.
 
 ---
-
-## Memory**
+## Memory
 
 The application uses two levels of memory.
 
-### Short-Term Memory**
+### Short-Term Memory
 
 Short-term memory stores the current conversation so the assistant can maintain context between messages.
 
@@ -346,7 +345,7 @@ Assistant Response
 
 ```
 
-### Long-Term Memory**
+### Long-Term Memory
 
 Long-term memory stores useful previous information and retrieves relevant memories using semantic similarity.
 
@@ -388,7 +387,7 @@ Previous Interaction
 
 ---
 
-## Model Context Protocol (MCP)**
+## Model Context Protocol (MCP)
 
 The project includes an MCP server/client architecture for standardized tool integration.
 
@@ -432,11 +431,11 @@ MCP separates tool implementations from the main agent logic and provides a stan
 
 ---
 
-## FastAPI Backend**
+## FastAPI Backend
 
 The agent is exposed through a REST API using FastAPI.
 
-### Health Check**
+### Health Check
 
 ```http
 
@@ -455,8 +454,7 @@ Response:
 }
 
 ```
-
-### Ask a Question**
+### Ask a Question
 
 ```http
 
@@ -490,7 +488,7 @@ Response:
 
 ```
 
-### Web Interface**
+### Web Interface
 
 ```http
 
@@ -502,7 +500,7 @@ A simple browser-based interface is available for interacting with the assistant
 
 ---
 
-## Observability**
+## Observability
 
 The project integrates **LangSmith**** for LLM application tracing and debugging.
 
@@ -548,7 +546,7 @@ This makes it easier to understand agent behavior and troubleshoot retrieval or 
 
 ---
 
-## Testing**
+## Testing
 
 The project includes automated API tests using **Pytest****.
 
@@ -580,7 +578,7 @@ The current tests cover:
 
 ---
 
-## Project Structure**
+## Project Structure
 
 ```text
 
@@ -668,7 +666,7 @@ Agentic-RAG/
 
 ---
 
-## Technology Stack**
+## Technology Stack
 
 \| Technology | Purpose |
 
@@ -698,9 +696,9 @@ Agentic-RAG/
 
 ---
 
-## Installation**
+## Installation
 
-### 1. Clone the Repository**
+### 1. Clone the Repository
 
 ```bash
 
@@ -710,7 +708,7 @@ cd Agentic-RAG
 
 ```
 
-### 2. Create a Virtual Environment**
+### 2. Create a Virtual Environment
 
 ```bash
 
@@ -718,7 +716,7 @@ python -m venv .venv
 
 ```
 
-### 3. Activate the Environment**
+### 3. Activate the Environment
 
 Windows PowerShell:
 
@@ -728,7 +726,7 @@ Windows PowerShell:
 
 ```
 
-### 4. Install Dependencies**
+### 4. Install Dependencies
 
 ```bash
 
@@ -736,7 +734,7 @@ pip install -r requirements.txt
 
 ```
 
-### 5. Configure Environment Variables**
+### 5. Configure Environment Variables
 
 Create a `.env` file in the project root.
 
@@ -758,9 +756,9 @@ LANGCHAIN_ENDPOINT=https://api.smith.langchain.com
 
 ---
 
-## Running the Application**
+## Running the Application
 
-### Run the Agent**
+### Run the Agent
 
 ```bash
 
@@ -768,7 +766,7 @@ python -m app.agent.agent
 
 ```
 
-### Run the FastAPI Server**
+### Run the FastAPI Server
 
 ```bash
 
@@ -778,7 +776,7 @@ uvicorn app.api.main:app --reload
 
 Then open:
 
-**API documentation****
+**API documentation**
 
 ```text
 
@@ -786,7 +784,7 @@ http://127.0.0.1:8000/docs
 
 ```
 
-**Web interface****
+**Web interface**
 
 ```text
 
@@ -794,8 +792,7 @@ http://127.0.0.1:8000/ui
 
 ```
 
-**Health check****
-
+**Health check**
 ```text
 
 http://127.0.0.1:8000/
@@ -804,7 +801,7 @@ http://127.0.0.1:8000/
 
 ---
 
-## Example Questions**
+## Example Questions
 
 Try questions such as:
 
@@ -824,7 +821,7 @@ What issues are currently high priority?
 
 ---
 
-## Engineering Highlights**
+## Engineering Highlights
 
 This project demonstrates practical experience with:
 
@@ -854,7 +851,7 @@ This project demonstrates practical experience with:
 
 ---
 
-## Future Improvements**
+## Future Improvements
 
 Potential improvements include:
 
@@ -882,7 +879,7 @@ Potential improvements include:
 
 ---
 
-## Key Learnings**
+## Key Learnings
 
 Building this project provided hands-on experience with modern AI application development:
 
@@ -906,9 +903,9 @@ Building this project provided hands-on experience with modern AI application de
 
 ---
 
-## Author**
+## Author
 
-### Uday**
+### Uday Polishetty
 
 **Software Developer | AI / LLM Projects****
 
